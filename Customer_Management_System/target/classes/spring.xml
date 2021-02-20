@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       https://www.springframework.org/tx/spring-tx.xsd
+       ">
+
+<bean class="org.apache.commons.dbcp.BasicDataSource" id="ds">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	<property name="url" value="jdbc:mysql://localhost:3306/cms"></property>
+	<property name="username" value="root"></property>
+	<property name="password" value=""></property>
+</bean>
+
+<bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" id="sf">
+	<property name="dataSource" ref="ds"></property>
+	
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.dilaect">org.hibernate.dialect.MySQLDialect</prop>
+			<prop key="hibernate.show_sql">true</prop>
+			<prop key="hibernate.hbm2ddl.auto">update</prop>
+			
+		</props>
+	</property>
+	<property name="annotatedClasses">
+	 
+	  <array>
+              <value>com.demo123.dto.User</value>
+               
+      </array>
+   	</property>
+	
+</bean>
+
+<bean class="com.demo123.dao.UserDAO" name="udao">
+	<property name="sessionFactory" ref="sf"></property>
+</bean>
+<tx:annotation-driven transaction-manager="txnManagerBean" proxy-target-class="true"/>
+
+<bean id="txnManagerBean" 
+class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+<property name="sessionFactory" ref="sf"></property>
+</bean>
+
+</beans>
