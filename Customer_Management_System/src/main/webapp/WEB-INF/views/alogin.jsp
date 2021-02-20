@@ -91,7 +91,7 @@ button:hover {
     <input type="password" placeholder="Enter Password" name="password" required>
     
    
-    <p style="color: red;"><%=(String)session.getAttribute("msg")%></p>
+    
     
 
     <div class="clearfix">
